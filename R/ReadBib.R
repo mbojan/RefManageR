@@ -53,6 +53,10 @@ ReadBib <- function(file, .Encoding = "UTF-8",
                     srcfile(file, encoding = .Encoding))
 
   out <- bibtex::do_read_bib(file, encoding = .Encoding, srcfile)
+  if(identical(.Encoding, "UTF-8")) {
+    # Declare UTF-8 of the strings if it is so
+    out <- lapply(out, function(x) {Encoding(x) <- "UTF-8"; x})
+  }
   at <- attributes(out)
   if (typeof(out) != "integer")
     out <- lapply(out, MakeBibEntry)
